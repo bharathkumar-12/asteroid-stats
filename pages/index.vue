@@ -13,11 +13,17 @@
 					id="start_date"
 					label="Start Date"
 					v-model="startDate"
+					@update:modelValue="setDateRange"
 					required
 				/>
 
 				<!-- End Date -->
-				<DateInput id="end_date" label="End Date" v-model="endDate" />
+				<DateInput 
+					id="end_date" 
+					label="End Date" 
+					v-model="endDate"
+					:allowedRange="dateRange"
+				/>
 
 				<!-- Submit Button -->
 				<div class="flex items-end">
@@ -66,12 +72,13 @@
 	</div>
 </template>
 <script setup>
-import { Chart } from "chart.js/auto";
-import longData from "./data.js";
-const loading = ref(false);
-const config = useRuntimeConfig();
-const startDate = ref("");
-const endDate = ref("");
+import { Chart } from "chart.js/auto"
+import longData from "./data.js"
+const loading = ref(false)
+const config = useRuntimeConfig()
+const startDate = ref("")
+const endDate = ref("")
+const dateRange = ref({})
 
 const responseData = ref(longData);
 
@@ -137,65 +144,83 @@ let lastFetchTime = 0; // Store the last fetch time
 async function fetchFromNASA() {
 	const now = Date.now();
 
-	// Check if 30 seconds have passed since the last request
+	// Throttle requests to every 30 seconds
 	if (isFetching || now - lastFetchTime < 30000) {
 		alert("Please wait 30 seconds before making another request.");
 		return;
 	}
 
+	// Validate startDate
+	if (!startDate.value) {
+		alert("Start date is required. Please provide a valid start date.");
+		return;
+	}
+
 	isFetching = true;
+	loading.value = true;
 
 	try {
-		// Validate startDate
-		if (!startDate.value) {
-			throw new Error(
-				"Start date is required. Please provide a valid start date."
-			);
-		}
-		loading.value = true;
-		// Construct the URL dynamically
-		let url = `${config.public.nasaBaseURL}/feed?start_date=${startDate.value}`;
+		// Build the request URL
+		const url = new URL(`${config.public.nasaBaseURL}/feed`);
+		url.searchParams.append("start_date", startDate.value);
+
 		if (endDate.value) {
-			url += `&end_date=${endDate.value}`;
-		}
-		url += `&api_key=${config.public.nasaApiKey}`;
-
-		// Fetch data from NASA API
-		const response = await fetch(url);
-
-		if (response.status === 400) {
-			throw new Error(
-				"Date Format Exception - Expected format (yyyy-mm-dd). The Feed date limit is only 7 Days."
-			);
-		} else if (response.status === 403) {
-			throw new Error(
-				"Access forbidden: Your API key might be invalid or you have exceeded the usage limit."
-			);
-		} else if (!response.ok) {
-			throw new Error(
-				`Unexpected error occurred: ${response.status} - ${response.statusText}`
-			);
+			url.searchParams.append("end_date", endDate.value);
 		}
 
+		url.searchParams.append("api_key", config.public.nasaApiKey);
+		const response = await fetch(url.toString());
+
+		// Handle response status codes
 		if (!response.ok) {
-			throw new Error(
-				`HTTP Error: ${response.status} - ${response.statusText}`
-			);
+			handleError(response.status);
+			return;
 		}
 
+		// Parse and store response data
 		responseData.value = await response.json();
 		lastFetchTime = now; // Update the last fetch time
 	} catch (error) {
 		console.error("Error fetching data from NASA API:", error.message);
 		alert(`Error: ${error.message}`);
-		throw error;
 	} finally {
-		// Reset the flag after 30 seconds
-		setTimeout(() => {
-			isFetching = false;
-		}, 30000);
+		// Reset the fetching flag and loading state
+		isFetching = false;
 		loading.value = false;
 	}
 }
+
+// Handle response errors based on status codes
+function handleError(status) {
+	const errorMessages = {
+		400: "Date Format Exception - Expected format (yyyy-mm-dd). The Feed date limit is only 7 Days.",
+		403: "Access forbidden: Your API key might be invalid or you have exceeded the usage limit.",
+		default: "An unexpected error occurred. Please try again later.",
+	};
+
+	const message = errorMessages[status] || `HTTP Error: ${status}`;
+	console.error("API Error:", message);
+	alert(message);
+}
+
+
+const setDateRange = () => {
+	endDate.value = ""
+	// Calculate the end date as 7 days after the start date
+	const start = new Date(startDate.value)
+	const calculatedEndDate = new Date(start)
+	calculatedEndDate.setDate(start.getDate() + 7)
+
+	// Set the allowed range dynamically
+	dateRange.value = {
+		start: startDate.value,
+		end: calculatedEndDate.toISOString().split("T")[0],
+	}
+}
+
+watch(startDate, () => {
+	if (startDate.value) {
+		setDateRange();
+	}
+});
 </script>
-<style scoped></style>
