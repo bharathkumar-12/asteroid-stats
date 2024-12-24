@@ -1,3 +1,15 @@
+<img width="1466" alt="Screenshot 2024-12-24 at 10 28 25 AM" src="https://github.com/user-attachments/assets/98a5175e-7345-42fe-aa6e-dc8be2cc5a4a" />
+
+
+# Steps to Generate API key
+- Neo stands for Near-Earth Objects. Nasa provides an open API and in this problem, we will be using the Asteroid NeoWs API.
+- Data Source
+NASA’s Open API -> https://api.nasa.gov (Go to Browse APIs -> Asteroids - NeoWs -> Neo -
+Feed)
+Neo Feed
+- Sign up for the API services to get the API key mailed to your inbox.
+
+
 # Nuxt Minimal Starter
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
