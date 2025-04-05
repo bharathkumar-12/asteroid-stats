@@ -43,13 +43,55 @@
 				<div class="flex items-end">
 					<button
 						type="submit"
-						class="w-full bg-blue-500 hover:bg-blue-600 text-white font-light py-3 px-6 rounded-lg transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black"
+						class="w-full bg-blue-500 hover:bg-blue-600 text-white font-light py-3 px-6 rounded-lg transition-all duration-300 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-black relative"
+						:disabled="loading"
 					>
-						Search Asteroids
+						<span :class="{ 'opacity-0': loading }">Search Asteroids</span>
+						<!-- Loading Animation -->
+						<div v-if="loading" class="absolute inset-0 flex items-center justify-center">
+							<div class="relative w-6 h-6">
+								<div class="absolute inset-0 rounded-full border-2 border-white/20"></div>
+								<div class="absolute inset-0 rounded-full border-2 border-t-white border-r-transparent border-b-transparent border-l-transparent animate-spin"></div>
+							</div>
+						</div>
 					</button>
 				</div>
 			</form>
 		</section>
+
+		<!-- Loading Overlay -->
+		<div v-if="loading" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50">
+			<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center">
+				<!-- Solar System Animation -->
+				<div class="relative w-48 h-48 mb-8">
+					<!-- Outer Orbit -->
+					<div class="absolute inset-0 rounded-full border border-blue-400/20 animate-orbit"></div>
+					<div class="absolute inset-4 rounded-full border border-blue-400/10 animate-orbit" style="animation-duration: 15s"></div>
+					<div class="absolute inset-8 rounded-full border border-blue-400/5 animate-orbit" style="animation-duration: 20s"></div>
+					
+					<!-- Center Sun -->
+					<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-yellow-400/20 border border-yellow-400/30 flex items-center justify-center">
+						<div class="w-12 h-12 rounded-full bg-yellow-400/30 border border-yellow-400/40 animate-pulse"></div>
+						<div class="absolute inset-0 rounded-full bg-yellow-400/10 animate-ping"></div>
+					</div>
+					
+					<!-- Orbiting Planets -->
+					<div class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-blue-400/20 border border-blue-400/30 animate-orbit"></div>
+					<div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-6 h-6 rounded-full bg-green-400/20 border border-green-400/30 animate-orbit" style="animation-duration: 15s"></div>
+					<div class="absolute left-0 top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-purple-400/20 border border-purple-400/30 animate-orbit" style="animation-duration: 20s"></div>
+				</div>
+				
+				<!-- Loading Text -->
+				<div class="relative">
+					<p class="text-white text-lg font-light mb-2">Fetching asteroid data</p>
+					<div class="flex justify-center space-x-1">
+						<div class="w-2 h-2 rounded-full bg-blue-400/60 animate-bounce" style="animation-delay: 0s"></div>
+						<div class="w-2 h-2 rounded-full bg-blue-400/60 animate-bounce" style="animation-delay: 0.2s"></div>
+						<div class="w-2 h-2 rounded-full bg-blue-400/60 animate-bounce" style="animation-delay: 0.4s"></div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<!-- Stats Grid -->
 		<section class="grid gap-6 grid-cols-1 md:grid-cols-3">

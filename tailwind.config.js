@@ -55,7 +55,7 @@ export default {
 			animation: {
 				asteroid: "asteroid var(--duration, 8s) linear infinite",
 				asteroidRotate: "asteroidRotate 4s linear infinite",
-				orbit: "orbit 20s linear infinite",
+				orbit: "orbit 10s linear infinite",
 				float: "float 2s ease-in-out infinite",
 			},
 		},
