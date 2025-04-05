@@ -1,25 +1,16 @@
 <template>
-	<div
-		class="flex w-full flex-col justify-center gap-3 p-6 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white rounded-xl shadow-xl hover:scale-105 transition-transform"
-	>
-		<div
-			v-if="statTitle"
-			class="text-base font-medium uppercase tracking-wider opacity-90"
-		>
+	<div class="flex flex-col h-full">
+		<div class="text-sm font-light text-blue-400 mb-2">
 			{{ statTitle }}
 		</div>
-		<div v-if="astName" class="text-2xl font-bold drop-shadow-lg">
+		<div v-if="astName" class="text-lg text-gray-300 mb-4">
 			{{ astName }}
 		</div>
-		<div v-else>
-			&nbsp;
-		</div>
-		<div
-			class="text-4xl font-extrabold underline decoration-dashed decoration-yellow-400"
-		>
+		<div v-else class="h-6"></div>
+		<div class="text-3xl font-light text-white mb-2">
 			{{ formattedValue }}
 		</div>
-		<div v-if="unit" class="text-sm font-light opacity-80 self-end">
+		<div v-if="unit" class="text-sm text-gray-400">
 			{{ unit }}
 		</div>
 	</div>
