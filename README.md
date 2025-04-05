@@ -1,4 +1,6 @@
-<img width="1466" alt="Screenshot 2024-12-24 at 10 28 25 AM" src="https://github.com/user-attachments/assets/98a5175e-7345-42fe-aa6e-dc8be2cc5a4a" />
+[![Netlify Status](https://api.netlify.com/api/v1/badges/152224d2-4e87-4575-aff1-101046b18ffd/deploy-status)](https://app.netlify.com/sites/tiny-biscuit-8f1acb/deploys)
+
+![Astro-project-screenshot](https://github.com/user-attachments/assets/ba85fe99-e8a2-4e03-a079-51ce5dd01e43)
 
 # Steps to Generate API key
 
