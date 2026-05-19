@@ -360,3 +360,9 @@ docker run -p 3000:3000 -e NUXT_PUBLIC_NASA_API_KEY=your_api_key asteroid-stats
 ## License
 
 MIT
+
+---
+
+## Maintenance
+
+Last maintenance update: <!--LAST_UPDATED-->2026-05-19<!--/LAST_UPDATED-->
