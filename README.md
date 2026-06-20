@@ -365,4 +365,4 @@ MIT
 
 ## Maintenance
 
-Last maintenance update: <!--LAST_UPDATED-->2026-06-14<!--/LAST_UPDATED-->
+Last maintenance update: <!--LAST_UPDATED-->2026-06-20<!--/LAST_UPDATED-->
