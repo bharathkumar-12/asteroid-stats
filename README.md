@@ -42,7 +42,7 @@ A modern, production-ready web application for tracking and visualizing Near-Ear
 - npm, pnpm, yarn, or bun
 - NASA API key ([Get yours here](#api-key-setup))
 
-### Installation
+### Setup
 
 ```bash
 # Clone the repository
